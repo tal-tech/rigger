@@ -287,3 +287,14 @@ go get github.com/tal-tech/rigger
    rigger tree命令查看所有golang组件
 
    rigger tree 组件名，可查看组件详情并下载组件
+   
+   
+### 联系我们
+<p align="left">
+ <a href="https://www.yuque.com/tal-tech/rigger" target="_blank">
+     <img src="https://cdn.nlark.com/yuque/0/2020/png/2138318/1600340932767-f20251e4-688a-4077-9721-9296f5319e56.png"  alt="Contact Us" align=center />
+ </a>
+</p>
+<p align="left">
+（微信扫一扫，申请加入开发讨论微信群）
+</p>
