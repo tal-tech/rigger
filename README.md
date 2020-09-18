@@ -215,18 +215,6 @@ go get github.com/tal-tech/rigger
 
     `up子命令，项目推荐使用go标准tag格式，为vX.Y.Z，如v1.1.1，up命令后跟x、y、z，升级指定位置`
 
-#### genfn
-* 用途：
-   
-    生成xesSDK接口方法
-
-* 命令：
-    ```
-    rigger genfn [zhongtai|irc|oa|tiku] apiName funcName path [flags]
-    ```
-* 说明：
-    
-    支持多个模板，具体使用参考[xesSDK](http://go.xesv5.com/xessdk/#/develop)
 
 #### fswatch
 * 用途：
