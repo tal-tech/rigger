@@ -41,7 +41,7 @@ func init() {
 	RootCmd.AddCommand(cmd.Frame)
 	RootCmd.AddCommand(cmd.Tree)
 	RootCmd.AddCommand(cmd.Reverse)
-	cmd.Genc.Flags().StringVarP(&cmd.BasePath, "basepath", "b", "xes_xueyan_hudong", "service BasePath")
+	cmd.Genc.Flags().StringVarP(&cmd.BasePath, "basepath", "b", "tal_tech", "service BasePath")
 	cmd.Genc.Flags().StringVarP(&cmd.ProjectPath, "projectpath", "p", "", "your project path")
 	cmd.Genc.Flags().StringVarP(&cmd.ImportPath, "importpath", "i", "", "service proto import path")
 	cmd.Restart.Flags().BoolVarP(&cmd.Rebuild, "rebuild", "r", false, "build before start")
