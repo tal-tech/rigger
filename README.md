@@ -66,9 +66,8 @@ go get github.com/tal-tech/rigger
 
     * 生成sdk路径为当前路径下rpc文件夹内，部分代码如下图：
 
-    ![pic](https://wiki.zhiyinlou.com/download/attachments/34029786/image2019-11-6_16-37-14.png?version=1&modificationDate=1573029435000&api=v2)
          
-    **flag说明：**
+flag说明
 
     * -b, --basepath string service BasePath (default "xes_xueyan_hudong")
 
@@ -115,14 +114,14 @@ go get github.com/tal-tech/rigger
 
 * 命令：
     ```shell
-    rigger new [micro|api|async|custom] servicename [flags]
+    rigger new [rpc|api|async|proxy|custom] servicename [flags]
     ```
 * 说明：
     * 命令可通过clone模板生成新的项目
     
     * servicename为新生成项目名，生成路径为$GOPATH/servicename
 
-    * 目前模板可支持rpc服务odin(micro)、api服务gaea(api)、异步消费服务asyncworker(async)
+    * 目前模板可支持rpc服务odin(rpc)、api服务gaea(api)、异步消费服务asyncworker(async)、MQProxy服务(proxy)
 
     * 新生成项目内都附有简单demo，可通过rigger start、rigger example测试
 
