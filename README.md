@@ -66,9 +66,8 @@ go get github.com/tal-tech/rigger
 
     * 生成sdk路径为当前路径下rpc文件夹内，部分代码如下图：
 
-    ![pic](https://wiki.zhiyinlou.com/download/attachments/34029786/image2019-11-6_16-37-14.png?version=1&modificationDate=1573029435000&api=v2)
          
-    **flag说明：**
+flag说明
 
     * -b, --basepath string service BasePath (default "xes_xueyan_hudong")
 
