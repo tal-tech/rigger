@@ -63,58 +63,14 @@ func gens(c *cobra.Command, args []string) {
 		filename = strings.Replace(filename, ".", "/", -1)
 		last := strings.LastIndex(filename, "/")
 		if last > 0 {
-			fmt.Println(last, filename[:last])
 			common.CreateDir(curDir + "/app/serviceImpl/" + filename[:last])
+			filename = filename[:last] + "/" + string((filename[last+1] + 32)) + filename[last+2:]
+		} else {
+			filename = string((filename[0] + 32)) + filename[1:]
 		}
 		filename = filename + ".go"
 		common.WriteToFile(b, curDir+"/app/serviceImpl/"+filename, false)
 	}
-	/*
-		rpcDir := os.Getenv("GOPATH") + "/src/" + serviceName + "/app/rpc"
-		if ProjectPath != "" {
-			rpcDir = strings.TrimRight(ProjectPath, serviceName) + "/" + serviceName + "/app/rpc"
-		}
-		ImportPath = strings.TrimRight(ImportPath, serviceName)
-
-		dirList, err := ioutil.ReadDir(rpcDir)
-		if err != nil {
-			fmt.Fprintln(os.Stdout, err)
-			return
-		}
-
-		var buffer *bytes.Buffer
-
-		for _, v := range dirList {
-			var outputFile string
-			rpcFile := rpcDir + "/" + v.Name()
-
-			if code == "php" {
-				common.CreateDir(curDir + "/http/")
-				outputFile = curDir + "/http/" + v.Name()
-				buffer, err = internal.GenPHPHttpClient(rpcFile)
-				outputFile = strings.TrimRight(outputFile, ".go")
-				outputFile = outputFile + ".php"
-			} else if code == "go" {
-				common.CreateDir(curDir + "/rpc/")
-				outputFile = curDir + "/rpc/" + v.Name()
-				buffer, err = internal.GenGoRpcClient(rpcFile, BasePath, ImportPath)
-			}
-
-			if err != nil {
-				fmt.Fprintf(os.Stdout, "生成代码失败 %v\n", err)
-				break
-			}
-
-			err = common.WriteToFile(buffer, outputFile)
-
-			if err != nil {
-				fmt.Fprintf(os.Stdout, "生成代码失败 %v\n", err)
-				continue
-			}
-
-			fmt.Fprintln(os.Stdout, "客户端代码生成成功:"+outputFile)
-		}
-	*/
 	return
 
 }
