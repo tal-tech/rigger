@@ -41,6 +41,13 @@ var NewTritonInfo NewProjectInfo = NewProjectInfo{
 	ReplaceDir:     map[string]string{},
 }
 
+var NewPanInfo NewProjectInfo = NewProjectInfo{
+	TplRepo:        "git@github.com:tal-tech/pan.git",
+	ReplaceContent: []ReplaceContentItem{{"panic", skipTemplateName}, {"pan", DefaultReplaceName}, {"#TemplateName#", recoverPanic}},
+	ReplaceFile:    map[string]string{},
+	ReplaceDir:     map[string]string{},
+}
+
 var NewJobInfo NewProjectInfo = NewProjectInfo{
 	TplRepo:        "git@github.com:tal-tech/hera.git",
 	ReplaceContent: []ReplaceContentItem{},
@@ -62,6 +69,10 @@ func skipTemplateName(in string) string {
 
 func recoverEncoding(in string) string {
 	return "encoding"
+}
+
+func recoverPanic(in string) string {
+	return "panic"
 }
 
 func recoverOdin(in string) string {

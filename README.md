@@ -66,9 +66,8 @@ go get github.com/tal-tech/rigger
 
     * 生成sdk路径为当前路径下rpc文件夹内，部分代码如下图：
 
-    ![pic](https://wiki.zhiyinlou.com/download/attachments/34029786/image2019-11-6_16-37-14.png?version=1&modificationDate=1573029435000&api=v2)
          
-    **flag说明：**
+flag说明
 
     * -b, --basepath string service BasePath (default "xes_xueyan_hudong")
 
@@ -115,14 +114,14 @@ go get github.com/tal-tech/rigger
 
 * 命令：
     ```shell
-    rigger new [micro|api|async|custom] servicename [flags]
+    rigger new [rpc|api|async|proxy|custom] servicename [flags]
     ```
 * 说明：
     * 命令可通过clone模板生成新的项目
     
     * servicename为新生成项目名，生成路径为$GOPATH/servicename
 
-    * 目前模板可支持rpc服务odin(micro)、api服务gaea(api)、异步消费服务asyncworker(async)
+    * 目前模板可支持rpc服务odin(rpc)、api服务gaea(api)、异步消费服务asyncworker(async)、MQProxy服务(proxy)
 
     * 新生成项目内都附有简单demo，可通过rigger start、rigger example测试
 
@@ -215,18 +214,6 @@ go get github.com/tal-tech/rigger
 
     `up子命令，项目推荐使用go标准tag格式，为vX.Y.Z，如v1.1.1，up命令后跟x、y、z，升级指定位置`
 
-#### genfn
-* 用途：
-   
-    生成xesSDK接口方法
-
-* 命令：
-    ```
-    rigger genfn [zhongtai|irc|oa|tiku] apiName funcName path [flags]
-    ```
-* 说明：
-    
-    支持多个模板，具体使用参考[xesSDK](http://go.xesv5.com/xessdk/#/develop)
 
 #### fswatch
 * 用途：
@@ -299,3 +286,14 @@ go get github.com/tal-tech/rigger
    rigger tree命令查看所有golang组件
 
    rigger tree 组件名，可查看组件详情并下载组件
+   
+   
+### 联系我们
+<p align="left">
+ <a href="https://www.yuque.com/tal-tech/rigger" target="_blank">
+     <img src="https://cdn.nlark.com/yuque/0/2020/png/2138318/1600340932767-f20251e4-688a-4077-9721-9296f5319e56.png"  alt="Contact Us" align=center />
+ </a>
+</p>
+<p align="left">
+（微信扫一扫，申请加入开发讨论微信群）
+</p>

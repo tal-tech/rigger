@@ -14,9 +14,9 @@ import (
 )
 
 var New = &cobra.Command{
-	Use:           "new [micro|api|async|job|custom] [servicename]",
+	Use:           "new [rpc|api|async|proxy|job|custom] [servicename]",
 	Short:         "根据工程模板创建项目(job会在当前目录下生成)",
-	Long:          "请使用rigger new templatename(micro/api/async/job/custom) yourservicename",
+	Long:          "请使用rigger new templateName(rpc/api/async/proxy/job/custom) yourServiceName",
 	Run:           new,
 	SilenceUsage:  true,
 	SilenceErrors: true,
@@ -43,19 +43,21 @@ var newProjectInfo config.NewProjectInfo
 
 func new(c *cobra.Command, args []string) {
 	if len(args) <= 1 {
-		fmt.Fprintln(os.Stdout, "请使用rigger new templatename(micro/api/async/custom) yourservicename")
+		fmt.Fprintln(os.Stdout, "请使用rigger new templateName(rpc/api/async/proxy/custom) yourServiceName")
 		return
 	}
 	serviceName := Filter(args[1])
 	templatename := args[0]
 
 	switch templatename {
-	case "micro":
+	case "rpc":
 		newProjectInfo = config.NewOdinInfo
 	case "api":
 		newProjectInfo = config.NewGaeaInfo
 	case "async":
 		newProjectInfo = config.NewTritonInfo
+	case "proxy":
+		newProjectInfo = config.NewPanInfo
 	case "job":
 		newProjectInfo = config.NewJobInfo
 		newJobPro(serviceName)
@@ -74,7 +76,7 @@ func new(c *cobra.Command, args []string) {
 		}
 
 	default:
-		fmt.Fprintln(os.Stdout, "请使用rigger new templatename(micro/api/async/custom) yourservicename")
+		fmt.Fprintln(os.Stdout, "请使用rigger new templateName(rpc/api/async/proxy/custom) yourServiceName")
 		return
 	}
 
