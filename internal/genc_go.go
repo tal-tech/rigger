@@ -106,13 +106,13 @@ func genImport(importPath, serviceName string) string {
 	importTpl := `package rpc
 
 import (
-	"%s/%s/proto"
+	"%s/proto"
 	"github.com/tal-tech/xtools/rpcxutil"
 	"context"
 	"sync"
 )`
 
-	return fmt.Sprintf(importTpl, importPath, serviceName)
+	return fmt.Sprintf(importTpl, importPath)
 }
 
 func genVar(serviceName string, basePath string) string {
