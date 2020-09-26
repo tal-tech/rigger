@@ -21,35 +21,35 @@ type NewProjectInfo struct {
 }
 
 var NewOdinInfo NewProjectInfo = NewProjectInfo{
-	TplRepo:        "git@github.com:tal-tech/odin.git",
+	TplRepo:        "https://github.com/tal-tech/odin.git",
 	ReplaceContent: []ReplaceContentItem{ReplaceContentItem{"encoding", skipTemplateName}, ReplaceContentItem{"odin", DefaultReplaceName}, ReplaceContentItem{"Odin", TitleReplaceName}, ReplaceContentItem{"#TemplateName#", recoverEncoding}},
 	ReplaceFile:    map[string]string{"odin": ""},
 	ReplaceDir:     map[string]string{"odin": ""},
 }
 
 var NewGaeaInfo NewProjectInfo = NewProjectInfo{
-	TplRepo:        "git@github.com:tal-tech/gaea.git",
+	TplRepo:        "https://github.com/tal-tech/gaea.git",
 	ReplaceContent: []ReplaceContentItem{ReplaceContentItem{"gaea", DefaultReplaceName}, ReplaceContentItem{"Gaea", TitleReplaceName}},
 	ReplaceFile:    map[string]string{"gaea": ""},
 	ReplaceDir:     map[string]string{"gaea": ""},
 }
 
 var NewTritonInfo NewProjectInfo = NewProjectInfo{
-	TplRepo:        "git@github.com:tal-tech/triton.git",
+	TplRepo:        "https://github.com/tal-tech/triton.git",
 	ReplaceContent: []ReplaceContentItem{ReplaceContentItem{"triton", DefaultReplaceName}},
 	ReplaceFile:    map[string]string{},
 	ReplaceDir:     map[string]string{},
 }
 
 var NewPanInfo NewProjectInfo = NewProjectInfo{
-	TplRepo:        "git@github.com:tal-tech/pan.git",
+	TplRepo:        "https://github.com/tal-tech/pan.git",
 	ReplaceContent: []ReplaceContentItem{{"panic", skipTemplateName}, {"pan", DefaultReplaceName}, {"#TemplateName#", recoverPanic}},
 	ReplaceFile:    map[string]string{},
 	ReplaceDir:     map[string]string{},
 }
 
 var NewJobInfo NewProjectInfo = NewProjectInfo{
-	TplRepo:        "git@github.com:tal-tech/hera.git",
+	TplRepo:        "https://github.com/tal-tech/hera.git",
 	ReplaceContent: []ReplaceContentItem{},
 	ReplaceFile:    map[string]string{},
 	ReplaceDir:     map[string]string{},
