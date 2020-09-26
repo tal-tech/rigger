@@ -65,17 +65,17 @@ type UpdateUserResponse struct {
 func GenApiRouter(parse *ParseResult, serviceName string) *bytes.Buffer {
 	//imports
 	buffer := bytes.NewBufferString("package router\n\n")
-	buffer.WriteString(`import (
-	"gaea/app/controller/demo"
+	buffer.WriteString(fmt.Sprintf(`import (
+	"%s/app/controller/demo"
 	"github.com/gin-gonic/gin"
 )
 
 //The routing method is exactly the same as Gin                                                                     
 func RegisterRouter(router *gin.Engine) {
 	entry := router.Group("/demo")
-	entry.GET("/test", demo.GaeaDemo)
+	entry.GET("/test", demo.%sDemo)
 
-`)
+`, serviceName, strings.Title(serviceName)))
 
 	//struct
 	for _, fn := range parse.Fns {

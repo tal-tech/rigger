@@ -22,7 +22,7 @@ type NewProjectInfo struct {
 
 var NewOdinInfo NewProjectInfo = NewProjectInfo{
 	TplRepo:        "https://github.com/tal-tech/odin.git",
-	ReplaceContent: []ReplaceContentItem{ReplaceContentItem{"encoding", skipTemplateName}, ReplaceContentItem{"odin", DefaultReplaceName}, ReplaceContentItem{"Odin", TitleReplaceName}, ReplaceContentItem{"#TemplateName#", recoverEncoding}},
+	ReplaceContent: []ReplaceContentItem{ReplaceContentItem{"encoding", skipTemplateName}, ReplaceContentItem{"odinPlugin", skipTemplateNameOdin}, ReplaceContentItem{"odin", DefaultReplaceName}, ReplaceContentItem{"Odin", TitleReplaceName}, ReplaceContentItem{"#TemplateName#", recoverEncoding}, ReplaceContentItem{"#TemplateName2#", recoverOdinPlugin}},
 	ReplaceFile:    map[string]string{"odin": ""},
 	ReplaceDir:     map[string]string{"odin": ""},
 }
@@ -67,6 +67,10 @@ func skipTemplateName(in string) string {
 	return "#TemplateName#"
 }
 
+func skipTemplateNameOdin(in string) string {
+	return "#TemplateName2#"
+}
+
 func recoverEncoding(in string) string {
 	return "encoding"
 }
@@ -75,8 +79,8 @@ func recoverPanic(in string) string {
 	return "panic"
 }
 
-func recoverOdin(in string) string {
-	return "gaea"
+func recoverOdinPlugin(in string) string {
+	return "odinPlugin"
 }
 
 func DefaultXormConfig() map[string]string {
