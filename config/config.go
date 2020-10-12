@@ -86,7 +86,7 @@ func recoverOdinPlugin(in string) string {
 func DefaultXormConfig() map[string]string {
 	return map[string]string{
 		"lang":    "go",
-		"genJson": "0",
+		"genJson": "1",
 		"prefix":  "cos_",
 	}
 }
