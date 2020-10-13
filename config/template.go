@@ -17,7 +17,7 @@ func GetDefaultXormTpl() []XormTpl {
 }
 
 func GetXormGOTpl() string {
-	return `package dbdao
+	return `package torm
 
 {{$ilen := len .Imports}}
 import (
@@ -36,12 +36,12 @@ type {{$tb}} struct {
 }
 
 type {{$dao}} struct {
-    dbdao.DbBaseDao
+    torm.DbBaseDao
 }
 
 func New{{$dao}}(v ...interface{}) *{{$dao}} {
     this := new({{$dao}})
-    if ins := dbdao.GetDbInstance("default", "writer"); ins != nil {
+    if ins := torm.GetDbInstance("default", "writer"); ins != nil {
         this.UpdateEngine(ins.Engine)
     } else {
         return nil

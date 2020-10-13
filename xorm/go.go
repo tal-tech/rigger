@@ -30,7 +30,7 @@ var (
 				str := make([]string, 0)
 				for _, c := range col {
 					if v[2].(bool) {
-						str = append(str, "m"+mapper.Table2Obj(c)+" dbdao.Param")
+						str = append(str, "m"+mapper.Table2Obj(c)+" torm.Param")
 					} else {
 						str = append(str, "m"+mapper.Table2Obj(c))
 					}
