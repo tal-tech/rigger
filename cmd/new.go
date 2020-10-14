@@ -205,7 +205,10 @@ func sedI() string {
 }
 
 func getServiceDir(serviceName string) string {
-	return os.Getenv("GOPATH") + "/src/" + serviceName
+	if strings.TrimSpace(os.Getenv("GOPATH")) != "" {
+		return os.Getenv("GOPATH") + "/src/" + serviceName
+	}
+	return "./" + serviceName
 }
 
 func newJobPro(serviceName string) {
