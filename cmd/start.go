@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	osexec "os/exec"
 	"strconv"
@@ -33,11 +34,16 @@ func start(c *cobra.Command, args []string) {
 		fmt.Fprintln(os.Stdout, err)
 	}
 
-	detail, exist := processExistByName(serviceName)
-	if exist {
-		fmt.Fprintf(os.Stdout, "服务:%s 已启动,详细信息如下\n===============================\n%s",
-			serviceName, detail)
-		return
+	pfile, _ := getPidFile()
+	pidstr, err := ioutil.ReadFile(pfile)
+	if err == nil {
+		pid := string(pidstr)
+		detail, err := getProcessByPid(pid)
+		if detail != "" && err == nil {
+			fmt.Fprintf(os.Stdout, "服务:%s 已启动,详细信息如下\n===============================\n%s",
+				serviceName, detail)
+			return
+		}
 	}
 
 	arg := curdir + `/bin/` + serviceName
@@ -57,15 +63,19 @@ func start(c *cobra.Command, args []string) {
 		fmt.Fprintf(os.Stdout, "启动失败 %v\n", err)
 		return
 	}
+	pid := strconv.Itoa(cmd.Process.Pid)
 
 	if Foreground {
+		fmt.Fprintf(os.Stdout, "启动成功pid:%s\n", pid)
 		for {
 		}
 	}
 
-	pid := strconv.Itoa(cmd.Process.Pid)
+	cmd.Wait()
 
-	if !processExistByPid(pid) {
+	pinfo, _ := getProcessByPid(pid)
+	fmt.Println(pinfo)
+	if pinfo == "" {
 		fmt.Fprintf(os.Stdout, "启动失败\n")
 		return
 	}
@@ -91,14 +101,14 @@ func start(c *cobra.Command, args []string) {
 	fmt.Fprintf(os.Stdout, "启动成功pid:%s\n", pid)
 }
 
-func processExistByPid(pid string) bool {
+func getProcessByPid(pid string) (string, error) {
 	arg := `ps aux |grep ` + pid + ` |grep -v grep`
 
 	cmd := osexec.Command("/bin/sh", "-c", arg)
 
-	_, err := cmd.Output()
+	output, err := cmd.Output()
 
-	return err == nil
+	return string(output), err
 }
 
 func processExistByName(name string) (string, bool) {

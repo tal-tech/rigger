@@ -61,15 +61,17 @@ func fswatch(c *cobra.Command, args []string) {
 		fmt.Fprintf(os.Stdout, "启动失败 %v\n", err)
 		return
 	}
+	pid := strconv.Itoa(cmd.Process.Pid)
+	cmd.Wait()
 
 	if Foreground {
+		fmt.Fprintf(os.Stdout, "启动成功pid:%s\n", pid)
 		for {
 		}
 	}
 
-	pid := strconv.Itoa(cmd.Process.Pid)
-
-	if !processExistByPid(pid) {
+	pinfo, _ := getProcessByPid(pid)
+	if pinfo != "" {
 		fmt.Fprintf(os.Stdout, "启动失败\n")
 		return
 	}
