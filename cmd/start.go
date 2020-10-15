@@ -71,8 +71,6 @@ func start(c *cobra.Command, args []string) {
 		}
 	}
 
-	cmd.Wait()
-
 	pinfo, _ := getProcessByPid(pid)
 	fmt.Println(pinfo)
 	if pinfo == "" {
