@@ -67,14 +67,10 @@ func start(c *cobra.Command, args []string) {
 
 	if Foreground {
 		fmt.Fprintf(os.Stdout, "启动成功pid:%s\n", pid)
-		for {
-		}
+		cmd.Wait()
 	}
 
-	cmd.Wait()
-
 	pinfo, _ := getProcessByPid(pid)
-	fmt.Println(pinfo)
 	if pinfo == "" {
 		fmt.Fprintf(os.Stdout, "启动失败\n")
 		return
