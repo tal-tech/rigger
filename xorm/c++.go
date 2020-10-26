@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/go-xorm/core"
+	"xorm.io/xorm/schemas"
 )
 
 var (
@@ -22,27 +22,27 @@ var (
 	}
 )
 
-func cPlusTypeStr(col *core.Column) string {
+func cPlusTypeStr(col *schemas.Column) string {
 	tp := col.SQLType
 	name := strings.ToUpper(tp.Name)
 	switch name {
-	case core.Bit, core.TinyInt, core.SmallInt, core.MediumInt, core.Int, core.Integer, core.Serial:
+	case schemas.Bit, schemas.TinyInt, schemas.SmallInt, schemas.MediumInt, schemas.Int, schemas.Integer, schemas.Serial:
 		return "int"
-	case core.BigInt, core.BigSerial:
+	case schemas.BigInt, schemas.BigSerial:
 		return "__int64"
-	case core.Char, core.Varchar, core.TinyText, core.Text, core.MediumText, core.LongText:
+	case schemas.Char, schemas.Varchar, schemas.TinyText, schemas.Text, schemas.MediumText, schemas.LongText:
 		return "tstring"
-	case core.Date, core.DateTime, core.Time, core.TimeStamp:
+	case schemas.Date, schemas.DateTime, schemas.Time, schemas.TimeStamp:
 		return "time_t"
-	case core.Decimal, core.Numeric:
+	case schemas.Decimal, schemas.Numeric:
 		return "tstring"
-	case core.Real, core.Float:
+	case schemas.Real, schemas.Float:
 		return "float"
-	case core.Double:
+	case schemas.Double:
 		return "double"
-	case core.TinyBlob, core.Blob, core.MediumBlob, core.LongBlob, core.Bytea:
+	case schemas.TinyBlob, schemas.Blob, schemas.MediumBlob, schemas.LongBlob, schemas.Bytea:
 		return "tstring"
-	case core.Bool:
+	case schemas.Bool:
 		return "bool"
 	default:
 		return "tstring"
@@ -50,7 +50,7 @@ func cPlusTypeStr(col *core.Column) string {
 	return ""
 }
 
-func genCPlusImports(tables []*core.Table) map[string]string {
+func genCPlusImports(tables []*schemas.Table) map[string]string {
 	imports := make(map[string]string)
 
 	for _, table := range tables {

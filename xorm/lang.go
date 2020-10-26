@@ -9,13 +9,14 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/go-xorm/core"
+	"xorm.io/core"
+	"xorm.io/xorm/schemas"
 )
 
 type LangTmpl struct {
 	Funcs      template.FuncMap
 	Formater   func(string) (string, error)
-	GenImports func([]*core.Table) map[string]string
+	GenImports func([]*schemas.Table) map[string]string
 }
 
 var (

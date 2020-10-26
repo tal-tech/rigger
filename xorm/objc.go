@@ -9,7 +9,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/go-xorm/core"
+	"xorm.io/xorm/schemas"
 )
 
 var (
@@ -23,27 +23,27 @@ var (
 	}
 )
 
-func objcTypeStr(col *core.Column) string {
+func objcTypeStr(col *schemas.Column) string {
 	tp := col.SQLType
 	name := strings.ToUpper(tp.Name)
 	switch name {
-	case core.Bit, core.TinyInt, core.SmallInt, core.MediumInt, core.Int, core.Integer, core.Serial:
+	case schemas.Bit, schemas.TinyInt, schemas.SmallInt, schemas.MediumInt, schemas.Int, schemas.Integer, schemas.Serial:
 		return "int"
-	case core.BigInt, core.BigSerial:
+	case schemas.BigInt, schemas.BigSerial:
 		return "long"
-	case core.Char, core.Varchar, core.TinyText, core.Text, core.MediumText, core.LongText:
+	case schemas.Char, schemas.Varchar, schemas.TinyText, schemas.Text, schemas.MediumText, schemas.LongText:
 		return "NSString*"
-	case core.Date, core.DateTime, core.Time, core.TimeStamp:
+	case schemas.Date, schemas.DateTime, schemas.Time, schemas.TimeStamp:
 		return "NSString*"
-	case core.Decimal, core.Numeric:
+	case schemas.Decimal, schemas.Numeric:
 		return "NSString*"
-	case core.Real, core.Float:
+	case schemas.Real, schemas.Float:
 		return "float"
-	case core.Double:
+	case schemas.Double:
 		return "double"
-	case core.TinyBlob, core.Blob, core.MediumBlob, core.LongBlob, core.Bytea:
+	case schemas.TinyBlob, schemas.Blob, schemas.MediumBlob, schemas.LongBlob, schemas.Bytea:
 		return "NSString*"
-	case core.Bool:
+	case schemas.Bool:
 		return "BOOL"
 	default:
 		return "NSString*"
@@ -51,7 +51,7 @@ func objcTypeStr(col *core.Column) string {
 	return ""
 }
 
-func genObjcImports(tables []*core.Table) map[string]string {
+func genObjcImports(tables []*schemas.Table) map[string]string {
 	imports := make(map[string]string)
 
 	for _, table := range tables {

@@ -8,8 +8,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/go-xorm/core"
 	"github.com/lunny/log"
+	"xorm.io/xorm/schemas"
 )
 
 type Render struct {
@@ -17,7 +17,7 @@ type Render struct {
 	genDir      string
 	prefix      string
 	model       string
-	tables      []*core.Table
+	tables      []*schemas.Table
 	langTmpl    LangTmpl
 }
 
@@ -35,7 +35,7 @@ func (r *Render) Do(tmpl *template.Template, newFileName, ext string) error {
 
 		imports := r.langTmpl.GenImports(r.tables)
 
-		tbls := make([]*core.Table, 0)
+		tbls := make([]*schemas.Table, 0)
 		for _, table := range r.tables {
 			//[SWH|+]
 			if r.prefix != "" {
@@ -79,7 +79,7 @@ func (r *Render) Do(tmpl *template.Template, newFileName, ext string) error {
 			}
 			filename := table2Obj(table.Name)
 			// imports
-			tbs := []*core.Table{table}
+			tbs := []*schemas.Table{table}
 			imports := r.langTmpl.GenImports(tbs)
 
 			w, err := os.Create(path.Join(r.genDir, filename+ext))

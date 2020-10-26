@@ -23,6 +23,7 @@ func GetXormGOTpl() string {
 import (
         {{range .Imports}}"{{.}}"{{end}}
         "github.com/tal-tech/torm"
+		"context"
        )
 
 {{range .Tables}}
@@ -37,10 +38,13 @@ type {{$tb}} struct {
 
 type {{$dao}} struct {
     torm.DbBaseDao
+	ctx context.Context
 }
 
-func New{{$dao}}(v ...interface{}) *{{$dao}} {
+func New{{$dao}}(ctx context.Context, v ...interface{}) *{{$dao}} {
     this := new({{$dao}})
+	this.ctx = ctx
+	this.InitSession(ctx)
     if ins := torm.GetDbInstance("default", "writer"); ins != nil {
         this.UpdateEngine(ins.Engine)
     } else {
@@ -56,7 +60,6 @@ func New{{$dao}}(v ...interface{}) *{{$dao}} {
 {{if gt $pl 0}}
 func (this *{{$dao}})Get({{genParams $table .PrimaryKeys true}}) (ret []{{$tb}}, err error) {
     ret = make([]{{$tb}},0)
-    this.InitSession()
     {{range .PrimaryKeys}}
     {{$p := Mapper .}}
     this.BuildQuery(m{{$p}}, "{{.}}")
@@ -66,7 +69,6 @@ func (this *{{$dao}})Get({{genParams $table .PrimaryKeys true}}) (ret []{{$tb}},
 }
 func (this *{{$dao}})GetLimit({{genParams $table .PrimaryKeys true}}, pn, rn int) (ret []{{$tb}}, err error) {
     ret = make([]{{$tb}},0)
-    this.InitSession()
     {{range .PrimaryKeys}}
     {{$p := Mapper .}}
     this.BuildQuery(m{{$p}}, "{{.}}")
@@ -75,7 +77,6 @@ func (this *{{$dao}})GetLimit({{genParams $table .PrimaryKeys true}}, pn, rn int
     return
 }
 func (this *{{$dao}})GetCount({{genParams $table .PrimaryKeys true}}) (ret int64, err error) {
-    this.InitSession()
     {{range .PrimaryKeys}}
     {{$p := Mapper .}}
     this.BuildQuery(m{{$p}}, "{{.}}")
@@ -88,7 +89,6 @@ func (this *{{$dao}})GetCount({{genParams $table .PrimaryKeys true}}) (ret int64
 {{range .Indexes}}
 func (this *{{$dao}})GetByIdx{{getMethodName .Name}}({{genParams $table .Cols true}}) (ret []{{$tb}}, err error) {
     ret = make([]{{$tb}},0)
-    this.InitSession()
     {{range .Cols}}
     {{$p := Mapper .}}
     this.BuildQuery(m{{$p}}, "{{.}}")
@@ -97,7 +97,6 @@ func (this *{{$dao}})GetByIdx{{getMethodName .Name}}({{genParams $table .Cols tr
     return
 }
 func (this *{{$dao}})GetByIdx{{getMethodName .Name}}Count({{genParams $table .Cols true}}) (ret int64, err error) {
-    this.InitSession()
     {{range .Cols}}
     {{$p := Mapper .}}
     this.BuildQuery(m{{$p}}, "{{.}}")
@@ -107,7 +106,6 @@ func (this *{{$dao}})GetByIdx{{getMethodName .Name}}Count({{genParams $table .Co
 }
 func (this *{{$dao}})GetByIdx{{getMethodName .Name}}Limit({{genParams $table .Cols true}}, pn,rn int) (ret []{{$tb}}, err error) {
     ret = make([]{{$tb}},0)
-    this.InitSession()
     {{range .Cols}}
     {{$p := Mapper .}}
     this.BuildQuery(m{{$p}}, "{{.}}")
