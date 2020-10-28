@@ -44,7 +44,6 @@ type {{$dao}} struct {
 func New{{$dao}}(ctx context.Context, v ...interface{}) *{{$dao}} {
     this := new({{$dao}})
 	this.ctx = ctx
-	this.InitSession(ctx)
     if ins := torm.GetDbInstance("default", "writer"); ins != nil {
         this.UpdateEngine(ins.Engine)
     } else {
@@ -53,6 +52,7 @@ func New{{$dao}}(ctx context.Context, v ...interface{}) *{{$dao}} {
     if len(v) != 0 {
         this.UpdateEngine(v...)
     }
+	this.InitSession(ctx)
     return this
 }
 
