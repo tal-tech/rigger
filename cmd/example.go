@@ -29,7 +29,7 @@ func example(c *cobra.Command, args []string) {
 	arg := `go run -tags "` + tag + `" ` + getServiceDir(serviceName) + `/examples/main.go` +
 		` -p=` + getServiceDir(serviceName) + ` -c=conf/conf.ini`
 
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 
 	var buffer bytes.Buffer
 	cmd.Stderr = &buffer

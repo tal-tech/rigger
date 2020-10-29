@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	osexec "os/exec"
+	"runtime"
 
 	"github.com/spf13/cobra"
 )
@@ -27,8 +28,11 @@ func status(c *cobra.Command, args []string) {
 	}
 
 	arg := `ps aux |grep ` + pid + ` |grep -v grep`
+	if runtime.GOOS == "windows" {
+		arg = `tasklist|findstr ` + pid
+	}
 
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 
 	output, err := cmd.Output()
 

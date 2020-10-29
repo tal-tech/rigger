@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	osexec "os/exec"
+	"runtime"
 
 	"github.com/spf13/cobra"
 	"github.com/tal-tech/rigger/common"
@@ -27,6 +28,10 @@ func build(c *cobra.Command, args []string) {
 	if !exists {
 		fmt.Fprintln(os.Stdout, "没有发现makefile文件")
 		return
+	}
+
+	if runtime.GOOS == "windows" {
+		args = []string{"build-windows"}
 	}
 
 	cmd := osexec.Command("make", args...)

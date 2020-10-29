@@ -30,7 +30,15 @@ var GitUrl string
 
 var DefaultReplacer *strings.Replacer
 
+var syscmd string
+
 func init() {
+	system := runtime.GOOS
+	if system == "windows" {
+		syscmd = "sh"
+	} else {
+		syscmd = "/bin/sh"
+	}
 	DefaultReplacer = strings.NewReplacer("\t", "", "\r", "", "\n", "", ".", "", "-", "")
 }
 
@@ -115,7 +123,7 @@ func new(c *cobra.Command, args []string) {
 func cloneTpl(serviceName string) error {
 	//todo 放入gopath
 	arg := "git clone " + newProjectInfo.TplRepo + " " + getServiceDir(serviceName)
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 
 	var buffer bytes.Buffer
 	cmd.Stderr = &buffer
@@ -128,7 +136,7 @@ func cloneTpl(serviceName string) error {
 
 func cleanGitFile(serviceName string) error {
 	arg := "pushd " + getServiceDir(serviceName) + "&& rm -rf .git && popd"
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 
 	var buffer bytes.Buffer
 	cmd.Stderr = &buffer
@@ -144,7 +152,7 @@ func replaceContent(serviceName string) error {
 	for _, item := range newProjectInfo.ReplaceContent {
 		arg := `grep '` + item.Key + `' -rl ` + getServiceDir(serviceName) + `|xargs ` + sedI() + ` 's/` + item.Key + `/` + item.Fn(serviceName) + `/g'`
 
-		cmd := osexec.Command("/bin/sh", "-c", arg)
+		cmd := osexec.Command(syscmd, "-c", arg)
 
 		var buffer bytes.Buffer
 		cmd.Stderr = &buffer
@@ -166,7 +174,7 @@ func replaceFile(serviceName string) error {
 			`&&find . -name '` + key + `.go' |awk -F "` + key + `.go" '{print $1}' |` +
 			`xargs -I'{}' mv {}` + key + `.go {}` + serviceName + `.go&&popd`
 
-		cmd := osexec.Command("/bin/sh", "-c", arg)
+		cmd := osexec.Command(syscmd, "-c", arg)
 
 		var buffer bytes.Buffer
 		cmd.Stderr = &buffer
@@ -184,7 +192,7 @@ func replaceDir(serviceName string) error {
 			`&&find . -name '` + key + `' -type d |awk -F "` + key + `" '{print $1}'| ` +
 			`xargs -I'{}' mv {}` + key + ` {}` + serviceName + `&&popd`
 
-		cmd := osexec.Command("/bin/sh", "-c", arg)
+		cmd := osexec.Command(syscmd, "-c", arg)
 
 		var buffer bytes.Buffer
 		cmd.Stderr = &buffer
@@ -205,6 +213,9 @@ func sedI() string {
 }
 
 func getServiceDir(serviceName string) string {
+	if runtime.GOOS == "windows" {
+		return "./" + serviceName
+	}
 	if strings.TrimSpace(os.Getenv("GOPATH")) != "" {
 		return os.Getenv("GOPATH") + "/src/" + serviceName
 	}
@@ -221,7 +232,7 @@ func newJobPro(serviceName string) {
 
 	tempDir := "/tmp/" + serviceName
 	arg := "git clone " + newProjectInfo.TplRepo + " " + tempDir
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 
 	var buffer bytes.Buffer
 	cmd.Stderr = &buffer
@@ -233,7 +244,7 @@ func newJobPro(serviceName string) {
 
 	buffer.Reset()
 	shellCmd := `mv ` + tempDir + `/clijob/jobWorker ` + serviceName + " && rm -rf " + tempDir
-	cmd = osexec.Command("/bin/sh", "-c", shellCmd)
+	cmd = osexec.Command(syscmd, "-c", shellCmd)
 	output, err = cmd.Output()
 	handlerCmdOutput(output, err, buffer)
 	if err != nil {

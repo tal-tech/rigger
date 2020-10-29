@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	osexec "os/exec"
+	"runtime"
 	"strconv"
 	"time"
 
@@ -45,9 +46,10 @@ func start(c *cobra.Command, args []string) {
 			return
 		}
 	}
-
 	arg := curdir + `/bin/` + serviceName
-
+	if runtime.GOOS == "windows" {
+		arg = arg + ".exe"
+	}
 	if len(args) == 0 {
 		args = append(args, "-p="+curdir, "-c=conf/conf.ini")
 	} else {
@@ -56,6 +58,13 @@ func start(c *cobra.Command, args []string) {
 	}
 
 	cmd := osexec.Command(arg, args...)
+	if runtime.GOOS == "windows" {
+		a := make([]string, 0)
+		a = append(a, "/c")
+		a = append(a, arg)
+		a = append(a, args...)
+		cmd = osexec.Command("cmd.exe", a...)
+	}
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	err = cmd.Start()
@@ -69,13 +78,11 @@ func start(c *cobra.Command, args []string) {
 		fmt.Fprintf(os.Stdout, "启动成功pid:%s\n", pid)
 		cmd.Wait()
 	}
-
 	pinfo, _ := getProcessByPid(pid)
 	if pinfo == "" {
 		fmt.Fprintf(os.Stdout, "启动失败\n")
 		return
 	}
-
 	pidFile, _ := getPidFile()
 
 	err = common.CreateDir(curdir + "/run/")
@@ -100,7 +107,10 @@ func start(c *cobra.Command, args []string) {
 func getProcessByPid(pid string) (string, error) {
 	arg := `ps aux |grep ` + pid + ` |grep -v grep`
 
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	if runtime.GOOS == "windows" {
+		arg = `tasklist|findstr ` + pid
+	}
+	cmd := osexec.Command(syscmd, "-c", arg)
 
 	output, err := cmd.Output()
 
@@ -110,7 +120,10 @@ func getProcessByPid(pid string) (string, error) {
 func processExistByName(name string) (string, bool) {
 	arg := `ps aux |grep ` + name + ` |grep -v grep`
 
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	if runtime.GOOS == "windows" {
+		arg = `tasklist|findstr ` + name
+	}
+	cmd := osexec.Command(syscmd, "-c", arg)
 
 	output, err := cmd.Output()
 

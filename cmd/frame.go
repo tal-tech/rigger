@@ -49,7 +49,7 @@ func frame(c *cobra.Command, args []string) {
 
 	command := sedI() + ` '\/\/Optional ` + addType + `/a\\t` + replaceContent + `' cmd/` + serviceName + `/main.go`
 
-	cmd := osexec.Command("/bin/sh", "-c", command)
+	cmd := osexec.Command(syscmd, "-c", command)
 
 	var buffer bytes.Buffer
 	cmd.Stderr = &buffer

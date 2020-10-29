@@ -194,7 +194,7 @@ func upgradeVersion(c *cobra.Command, args []string) {
 	showNextVersion(next)
 
 	arg := `git tag -a ` + next + ` -m "更新版本到"` + next
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 	var buffer bytes.Buffer
 	cmd.Stderr = &buffer
 
@@ -247,7 +247,7 @@ func getNextVersion(now []byte, arg string) (string, error) {
 
 func pushToRemote(c *cobra.Command, args []string) {
 	arg := `git push origin --tags`
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 
 	var buffer bytes.Buffer
 	cmd.Stderr = &buffer
@@ -282,7 +282,7 @@ func initTag(c *cobra.Command, args []string) {
 	}
 
 	arg := `git tag -a v0.0.1 -m "初始化tag"`
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 
 	var buffer bytes.Buffer
 	cmd.Stderr = &buffer
@@ -297,7 +297,7 @@ func initTag(c *cobra.Command, args []string) {
 func getVersionNow() ([]byte, error) {
 	arg := "git tag -l | sort -rV|head -n 1"
 	//arg := "git tag -l --sort=-v:refname |head -n 1"
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 	output, err := cmd.Output()
 
 	return output, err
@@ -328,7 +328,7 @@ func checkVersionFormat(version []byte) error {
 
 func fetch() error {
 	arg := "git fetch -p"
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 	var buffer bytes.Buffer
 	cmd.Stderr = &buffer
 
@@ -347,7 +347,7 @@ func getBranch() ([]byte, error) {
 	arg := `git branch |grep \* |awk '{print $2}'`
 	//arg := "git symbolic-ref --short -q HEAD"
 
-	cmd := osexec.Command("/bin/sh", "-c", arg)
+	cmd := osexec.Command(syscmd, "-c", arg)
 	output, err := cmd.Output()
 
 	return output, err

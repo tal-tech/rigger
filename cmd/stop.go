@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	osexec "os/exec"
+	"runtime"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -32,7 +33,12 @@ func stop(c *cobra.Command, args []string) {
 		return
 	}
 
-	cmd := osexec.Command("kill", pid)
+	arg := `kill ` + pid
+	if runtime.GOOS == "windows" {
+		arg = `tskill ` + pid
+	}
+
+	cmd := osexec.Command(syscmd, "-c", arg)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 
